@@ -31,10 +31,10 @@ spec:
       restartPolicy: Always
       containers:
       - name: main
-        image: loadgenerator
+        image: gcr.io/google-samples/microservices-demo/loadgenerator:v0.2.0
         env:
         - name: FRONTEND_ADDR
-          value: "frontend:80"
+          value: "frontend.default:80"
         - name: USERS
           value: "10"
         resources:

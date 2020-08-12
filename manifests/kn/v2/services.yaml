@@ -20,6 +20,9 @@ metadata:
     serving.knative.dev/visibility: cluster-local
 spec:
   template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
       - image: gcr.io/google-samples/microservices-demo/adservice:v0.2.0
@@ -45,8 +48,6 @@ spec:
     metadata:
       annotations:
         autoscaling.knative.dev/minScale: "1"
-        autoscaling.knative.dev/maxScale: "5"
-        autoscaling.knative.dev/target: "2"
     spec:
       containers:
       - image: gcr.io/google-samples/microservices-demo/cartservice:v0.2.0
@@ -75,6 +76,9 @@ metadata:
     serving.knative.dev/visibility: cluster-local
 spec:
   template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
       - image: gcr.io/google-samples/microservices-demo/checkoutservice:v0.2.0
@@ -110,6 +114,9 @@ metadata:
     serving.knative.dev/visibility: cluster-local
 spec:
   template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
       - image: gcr.io/google-samples/microservices-demo/currencyservice:v0.2.0
@@ -132,6 +139,9 @@ metadata:
     serving.knative.dev/visibility: cluster-local
 spec:
   template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
       - image: gcr.io/google-samples/microservices-demo/emailservice:v0.2.0
@@ -152,6 +162,9 @@ metadata:
   name: frontend
 spec:
   template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
         - image: gcr.io/google-samples/microservices-demo/frontend:v0.2.0
@@ -186,6 +199,9 @@ metadata:
     serving.knative.dev/visibility: cluster-local
 spec:
   template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
       - image: gcr.io/google-samples/microservices-demo/paymentservice:v0.2.0
@@ -208,6 +224,9 @@ metadata:
     serving.knative.dev/visibility: cluster-local
 spec:
   template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
         - image: gcr.io/google-samples/microservices-demo/productcatalogservice:v0.2.0
@@ -230,6 +249,9 @@ metadata:
     serving.knative.dev/visibility: cluster-local
 spec:
   template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
       - image: gcr.io/google-samples/microservices-demo/recommendationservice:v0.2.0
@@ -255,6 +277,9 @@ metadata:
     serving.knative.dev/visibility: cluster-local
 spec:
   template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
       - image: gcr.io/google-samples/microservices-demo/shippingservice:v0.2.0
