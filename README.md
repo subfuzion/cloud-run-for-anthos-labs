@@ -1,16 +1,21 @@
-# microservices-demo-knative
+# Cloud Run for Anthos Labs
 
-This repo contains Knative configuration manifests for running the [microservices-demo]
-as a serverless appliction.
+[Cloud Run for Anthos] is an integration with [Anthos], Google Cloud’s app modernization platform, bringing serverless to Google Kubernetes Engine (GKE).
+   
+Use these labs to learn more about how your enterprise can leverage Kubernetes
+ and serverless together.
 
-You should be able to deploy the application to any cluster with Kubernetes and Knative
-installed. The configuration files to deploy the application are in the `manifests` directory.
+## Labs
 
-For demo purposes, a script is provided to create a cluster on Google Cloud
-and then deploy the application to a Knative environment using Cloud Run for Anthos.
-The script is located in the `cluster/anthos` directory.
+[101 Deploy a microservices app to Cloud Run for Anthos]  
+In the first lab, deploy a [microservices application] as a mix of Kubernetes
+ and Knative services to Google Kubernetes Engine (GKE) using Cloud Run for Anthos.
+
+[101 Deploy a microservices app to Cloud Run for Anthos]: labs/101-deploy-a-microservices-app
+[Anthos]: https://cloud.google.com/anthos
+[Cloud Run for Anthos]: https://cloud.google.com/anthos/run
+[microservices application]: https://github.com/GoogleCloudPlatform/microservices-demo
 
 ---
 This is not an official Google project.
 
-[microservices-demo]: https://github.com/GoogleCloudPlatform/microservices-demo

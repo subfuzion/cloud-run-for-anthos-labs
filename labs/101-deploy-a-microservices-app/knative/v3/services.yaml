@@ -1,0 +1,305 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: adservice
+  labels:
+    serving.knative.dev/visibility: cluster-local
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containerConcurrency: 1
+      containers:
+      - image: gcr.io/google-samples/microservices-demo/adservice:v0.2.0
+        ports:
+          - containerPort: 8080
+            name: h2c
+        resources:
+          requests:
+            cpu: 200m
+            memory: 180Mi
+          limits:
+            cpu: 300m
+            memory: 300Mi
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: cartservice
+  labels:
+    serving.knative.dev/visibility: cluster-local
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containerConcurrency: 1
+      containers:
+      - image: gcr.io/google-samples/microservices-demo/cartservice:v0.2.0
+        args: ["-p", "$(PORT)"]
+        ports:
+          - containerPort: 8080
+            name: h2c
+        env:
+          - name: LISTEN_ADDR
+            value: "0.0.0.0"
+          - name: REDIS_ADDR
+            value: "redis-cart:6379"
+        resources:
+          requests:
+            cpu: 200m
+            memory: 64Mi
+          limits:
+            cpu: 300m
+            memory: 128Mi
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: checkoutservice
+  labels:
+    serving.knative.dev/visibility: cluster-local
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containerConcurrency: 1
+      containers:
+      - image: gcr.io/google-samples/microservices-demo/checkoutservice:v0.2.0
+        ports:
+          - containerPort: 8080
+            name: h2c
+        env:
+          - name: PRODUCT_CATALOG_SERVICE_ADDR
+            value: "productcatalogservice.default:80"
+          - name: SHIPPING_SERVICE_ADDR
+            value: "shippingservice.default:80"
+          - name: PAYMENT_SERVICE_ADDR
+            value: "paymentservice.default:80"
+          - name: EMAIL_SERVICE_ADDR
+            value: "emailservice.default:80"
+          - name: CURRENCY_SERVICE_ADDR
+            value: "currencyservice.default:80"
+          - name: CART_SERVICE_ADDR
+            value: "cartservice.default:80"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: currencyservice
+  labels:
+    serving.knative.dev/visibility: cluster-local
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containerConcurrency: 1
+      containers:
+      - image: gcr.io/google-samples/microservices-demo/currencyservice:v0.2.0
+        ports:
+          - containerPort: 7000
+            name: h2c
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: emailservice
+  labels:
+    serving.knative.dev/visibility: cluster-local
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containerConcurrency: 1
+      containers:
+      - image: gcr.io/google-samples/microservices-demo/emailservice:v0.2.0
+        ports:
+          - containerPort: 8080
+            name: h2c
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containerConcurrency: 1
+      containers:
+        - image: gcr.io/google-samples/microservices-demo/frontend:v0.2.0
+          env:
+            - name: PRODUCT_CATALOG_SERVICE_ADDR
+              value: "productcatalogservice.default:80"
+            - name: CURRENCY_SERVICE_ADDR
+              value: "currencyservice.default:80"
+            - name: CART_SERVICE_ADDR
+              value: "cartservice.default:80"
+            - name: RECOMMENDATION_SERVICE_ADDR
+              value: "recommendationservice.default:80"
+            - name: SHIPPING_SERVICE_ADDR
+              value: "shippingservice.default:80"
+            - name: CHECKOUT_SERVICE_ADDR
+              value: "checkoutservice.default:80"
+            - name: AD_SERVICE_ADDR
+              value: "adservice.default:80"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: paymentservice
+  labels:
+    serving.knative.dev/visibility: cluster-local
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containerConcurrency: 1
+      containers:
+      - image: gcr.io/google-samples/microservices-demo/paymentservice:v0.2.0
+        ports:
+          - containerPort: 8080
+            name: h2c
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: productcatalogservice
+  labels:
+    serving.knative.dev/visibility: cluster-local
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containerConcurrency: 1
+      containers:
+        - image: gcr.io/google-samples/microservices-demo/productcatalogservice:v0.2.0
+          ports:
+            - containerPort: 3550
+              name: h2c
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: recommendationservice
+  labels:
+    serving.knative.dev/visibility: cluster-local
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containerConcurrency: 1
+      containers:
+      - image: gcr.io/google-samples/microservices-demo/recommendationservice:v0.2.0
+        ports:
+          - containerPort: 8080
+            name: h2c
+        env:
+          - name: PRODUCT_CATALOG_SERVICE_ADDR
+            value: "productcatalogservice.default:80"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 220Mi
+          limits:
+            cpu: 200m
+            memory: 450Mi
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: shippingservice
+  labels:
+    serving.knative.dev/visibility: cluster-local
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containerConcurrency: 1
+      containers:
+      - image: gcr.io/google-samples/microservices-demo/shippingservice:v0.2.0
+        ports:
+          - containerPort: 50051
+            name: h2c
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
