@@ -26,12 +26,14 @@
 CLUSTER="${CLUSTER:-cluster-1}"
 ZONE="${ZONE:-us-central1-c}"
 NODES="${NODES:-3}"
-MACHINE="${MACHINE:-n1-standard-2}"
+MAXNODES="${MAXNODES:-6}"
+MACHINE="${MACHINE:-n2-standard-4}"
 CHANNEL="${CHANNEL:-regular}"
 
 gcloud beta container clusters create "${CLUSTER}" \
   --addons CloudRun,HttpLoadBalancing \
   --zone "${ZONE}" --num-nodes "${NODES}" --machine-type "${MACHINE}" \
   --release-channel "${CHANNEL}" \
+  --enable-autoscaling --min-nodes "${NODES}" --max-nodes "${MAXNODES}"
   --enable-ip-alias \
   --enable-stackdriver-kubernetes
