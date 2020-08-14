@@ -26,4 +26,4 @@ In this lab, you will deploy a sample [microservices application] using Cloud Ru
 [microservices application]: https://github.com/GoogleCloudPlatform/microservices-demo
 
 ---
-[[next]](02-setting-up.md)
+[[toc]](README.md) [[next]](02-setting-up.md)
