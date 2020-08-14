@@ -31,9 +31,8 @@ MACHINE="${MACHINE:-n2-standard-4}"
 CHANNEL="${CHANNEL:-regular}"
 
 gcloud beta container clusters create "${CLUSTER}" \
-  --addons CloudRun,HttpLoadBalancing \
-  --zone "${ZONE}" --num-nodes "${NODES}" --machine-type "${MACHINE}" \
   --release-channel "${CHANNEL}" \
+  --zone "${ZONE}" --num-nodes "${NODES}" --machine-type "${MACHINE}" \
   --enable-autoscaling --min-nodes "${NODES}" --max-nodes "${MAXNODES}" \
   --enable-ip-alias \
-  --enable-stackdriver-kubernetes
+  --addons CloudRun,HttpLoadBalancing --enable-stackdriver-kubernetes

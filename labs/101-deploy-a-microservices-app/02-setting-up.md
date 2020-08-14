@@ -42,12 +42,16 @@ gcloud services enable container.googleapis.com containerregistry.googleapis.com
 
 ```
 gcloud beta container clusters create $CLUSTER \
-  --addons CloudRun,HttpLoadBalancing \
-  --zone $ZONE --num-nodes 3 --machine-type n1-standard-2 \
   --release-channel regular \
+  --zone $ZONE --num-nodes 3 --machine-type n2-standard-4 \
+  --enable-autoscaling --min-nodes 3 --max-nodes 6 \
   --enable-ip-alias \
-  --enable-stackdriver-kubernetes
+  --addons CloudRun,HttpLoadBalancing --enable-stackdriver-kubernetes
 ```
+
+The last line of the command specifically adds everything needed for Cloud Run for Anthos, including logging.
+
+> Tip: You can also use the shell script at `cluster/cluster.sh` to create a cluster.
 
 ## Clone the configuration repository
 
