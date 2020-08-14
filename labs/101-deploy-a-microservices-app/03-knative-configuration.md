@@ -65,7 +65,7 @@ The `frontend` service is exposed to the Internet, serves the web user interface
 
 ![frontend to backends](assets/frontend-backends.png)
 
-### [services.yaml](https://github.com/subfuzion/microservices-demo-knative/blob/master/manifests/kn/1/services.yaml#L148-L179) → frontend
+### [services.yaml](https://github.com/subfuzion/cloud-run-for-anthos-labs/blob/master/labs/101-deploy-a-microservices-app/knative/v1/services.yaml#L143-L174) → frontend
 
 ```
 apiVersion: serving.knative.dev/v1
@@ -106,7 +106,7 @@ There are a number of important things to note about this [service configuration
 
 * The first two lines identify this configuration as a Knative `Service` using the Knative Serving API (`serving.knative.dev/v1`).
 * The name for the resource, which must be unique within a namespace, is supplied in metadata: `frontend`. Since no namespace is supplied, the default is "`default`".
-* There is only one container image for the service: `gcr.io/google-samples/microservices-demo/frontend:v0.2.0`.
+* There's only one container image for the service, so the container doesn't need to be named: : `gcr.io/google-samples/microservices-demo/frontend:v0.2.0`.
 * The `frontend` service expects environment variables with `dnsname:port` values to be set for each of the backend services that it will send requests to. Note that all of these services are also in the `default` namespace as indicated by their DNS names.
 * The Kubernetes [compute resource requirements] for the container are specified: at least 10% of a vCPU (limited to 20%) and at least 64 MiB (67,108,864 bytes, with a limit double that, or 134,217,728 bytes).
 * Since the `frontend` service listens on the port identified at runtime with the `PORT` environment variable (which is [automatically set by Knative]), there is no need to specify a `containerPort` value, as some of the other services in the app. The default for `PORT` is `8080`, but it's a good practice for a Knative service to get the value of the `PORT` environment variable anyway.
@@ -151,7 +151,7 @@ There are two important things to note:
 
 The `cartservice` provides shopping cart functionality for the app. 
 
-### [services.yaml](https://github.com/subfuzion/microservices-demo-knative/blob/master/manifests/kn/1/services.yaml#L36-L68) → cartservice
+### [services.yaml](https://github.com/subfuzion/cloud-run-for-anthos-labs/blob/master/labs/101-deploy-a-microservices-app/knative/v1/services.yaml#L36-L63) → cartservice
 
 ```
 apiVersion: serving.knative.dev/v1
@@ -192,7 +192,7 @@ The configuration should look familiar now; the only a couple of things to note 
 
 The `checkoutservice` is used to purchase the items a customer has added to their cart. 
 
-### [services.yaml](https://github.com/subfuzion/microservices-demo-knative/blob/master/manifests/kn/1/services.yaml#L69-L103) → checkoutservice
+### [services.yaml](https://github.com/subfuzion/cloud-run-for-anthos-labs/blob/master/labs/101-deploy-a-microservices-app/knative/v1/services.yaml#L64-L98) → checkoutservice
 
 ```
 apiVersion: serving.knative.dev/v1
@@ -237,7 +237,7 @@ Like the `frontend` and `cartservice`, the checkout service uses environment var
 
 The `currencyservice` is used to convert currencies to display price. 
 
-### [services.yaml](https://github.com/subfuzion/microservices-demo-knative/blob/master/manifests/kn/1/services.yaml#L104-L125) → currencyservice
+### [services.yaml](https://github.com/subfuzion/cloud-run-for-anthos-labs/blob/master/labs/101-deploy-a-microservices-app/knative/v1/services.yaml#L99-L120) → currencyservice
 
 ```
 apiVersion: serving.knative.dev/v1
@@ -269,7 +269,7 @@ The `currencyservice` listens on a specific port (`7000`), so this needs to be s
 
 The `emailservice` sends ordering and payment confirmation after a purchase. 
 
-### [services.yaml](https://github.com/subfuzion/microservices-demo-knative/blob/master/manifests/kn/1/services.yaml#L126-L147) → emailservice
+### [services.yaml](https://github.com/subfuzion/cloud-run-for-anthos-labs/blob/master/labs/101-deploy-a-microservices-app/knative/v1/services.yaml#L121-L142) → emailservice
 
 ```
 apiVersion: serving.knative.dev/v1
@@ -301,7 +301,7 @@ It's already been mentioned previously, but the only reason for the explicit `co
 
 The `paymentservice` is used for making purchases at checkout. 
 
-### [services.yaml](https://github.com/subfuzion/microservices-demo-knative/blob/master/manifests/kn/1/services.yaml#L180-L201) → paymentservice
+### [services.yaml](https://github.com/subfuzion/cloud-run-for-anthos-labs/blob/master/labs/101-deploy-a-microservices-app/knative/v1/services.yaml#L175-L196) → paymentservice
 
 ```
 apiVersion: serving.knative.dev/v1
@@ -334,7 +334,7 @@ Nothing new to explain here.
 
 The `productcatalogservice` is used to convert currencies to display price. 
 
-### [services.yaml](https://github.com/subfuzion/microservices-demo-knative/blob/master/manifests/kn/1/services.yaml#L202-L223) → productcatalogservice
+### [services.yaml](https://github.com/subfuzion/cloud-run-for-anthos-labs/blob/master/labs/101-deploy-a-microservices-app/knative/v1/services.yaml#L197-L218) → productcatalogservice
 
 ```
 apiVersion: serving.knative.dev/v1
@@ -366,7 +366,7 @@ The `productcatalogservice` listens on a specific port (`3550`), so this needs t
 
 The `recommendationservice` is used to make similar product recommendations while browsing. 
 
-### [services.yaml](https://github.com/subfuzion/microservices-demo-knative/blob/master/manifests/kn/1/services.yaml#L224-L248) → currencyservice
+### [services.yaml](https://github.com/subfuzion/cloud-run-for-anthos-labs/blob/master/labs/101-deploy-a-microservices-app/knative/v1/services.yaml#L219-L243) → recommendationservice
 
 ```
 apiVersion: serving.knative.dev/v1
@@ -401,7 +401,7 @@ Nothing new to explain here.
 
 The `shippingservice` is used to ship purchased products. 
 
-### [services.yaml](https://github.com/subfuzion/microservices-demo-knative/blob/master/manifests/kn/1/services.yaml#L104-L125) → currencyservice
+### [services.yaml](https://github.com/subfuzion/cloud-run-for-anthos-labs/blob/master/labs/101-deploy-a-microservices-app/knative/v1/services.yaml#L244-L265) → shippingservice
 
 ```
 apiVersion: serving.knative.dev/v1
@@ -430,7 +430,7 @@ spec:
 The `shippingservice` listens on a specific port (`3550`), so this needs to be specified, along with the name `h2c` for gRPC communication.
 
 
-[automatically set by Kn ative]: https://github.com/knative/serving/blob/master/docs/runtime-contract.md#process
+[automatically set by Knative]: https://github.com/knative/serving/blob/master/docs/runtime-contract.md#process
 [compute resource requirements]: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#resourcerequirements-v1-core
 [default for Knative is HTTP/1]: https://github.com/knative/serving/blob/master/docs/runtime-contract.md#protocols-and-ports
 [Knative Serving]: https://knative.dev/docs/serving/
