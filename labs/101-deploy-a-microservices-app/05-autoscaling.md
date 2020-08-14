@@ -26,32 +26,21 @@ kubectl apply -f knative/v2
 
 ## Scaling up
 
-You services automatcially scale up. As with `minScale` above, you can also
- configure a `maxScale` limit, if you need to.
+You services automatcially scale up. As with `minScale` above, you can also configure a `maxScale` limit, if you need to.
  
-To demonstrate scaling up, you can apply the configuration under `knative/v3
-`. You normally should not need to do this, but in the configuration a hard
- limit on container concurrency has been set to limit one request per
-  container at a time to force scaling up.
+To demonstrate scaling up, you can apply the configuration under `knative/v3`. You normally should not need to do this, but in the configuration a hard limit on container concurrency has been set to limit one request per container at a time to force scaling up.
   
 ```
 kubectl apply -f knative/v3
 ```
 
-Next, you can run a load generator service that will simulate sending
- requests from multiple users simultaneousy. If you look at the configuration
-  (`kubernetes/loadgenerator.yaml`), you'll see that the `USERS` environment
-   variable has been set to `10`. The app responds quickly enough we need
-    enough requests to trigger scaling.
+Next, you can run a load generator service that will simulate sending requests from multiple users simultaneousy. If you look at the configuration (`kubernetes/loadgenerator.yaml`), you'll see that the `USERS` environment variable has been set to `10`. The app responds quickly enough we need enough requests to trigger scaling.
     
 ```
 kubectl apply -f kubernetes/loadgenerator.yaml
 ```
 
-If you look at the terminal window or pane that's monitoring the kubernetes
- deployments (`watch kubectl get deployment`), you'll notice after a short
-  while (around a minute), the number of replicas will begin to increase (the
-   `READY` column displays replicas in `ready`/`desired` format).
+If you look at the terminal window or pane that's monitoring the kubernetes deployments (`watch kubectl get deployment`), you'll notice after a short while (around a minute), the number of replicas will begin to increase (the `READY` column displays replicas in `ready`/`desired` format).
    
 ![autoscaling replicas](assets/autoscaling-replicas.png)
 

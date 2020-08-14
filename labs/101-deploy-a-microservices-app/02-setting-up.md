@@ -2,9 +2,7 @@
 
 ## Install command line tools
 
-```
-Tip: If you are using Cloud Shell in the Google Cloud console, you can skip steps 1 and 2.
-```
+> Tip: If you are using Cloud Shell in the Google Cloud console, you can skip steps 1 and 2.
 
 1. [Install the Cloud SDK], which includes the `gcloud` command-line tool. Ensure you follow all the steps to **select or create a project** and **confirm that billing is enabled** for your project.
 2. Install `kubectl`.  You can use gcloud (shown below) or go to the [Kubernetes docs].
